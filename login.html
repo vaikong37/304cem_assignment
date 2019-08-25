@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html  >
+<head>
+  <!-- WEB API ASSIGNMENT by Vaiko NG-->
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="generator" content="Mobirise v4.10.5, mobirise.com">
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+  <link rel="shortcut icon" href="assets/images/tt-logo-smallai-122x122.png" type="image/x-icon">
+  <meta name="description" content="">
+  
+  <title>Travel to Taiwan / Login</title>
+  <link rel="stylesheet" href="assets/web/assets/mobirise-icons/mobirise-icons.css">
+  <link rel="stylesheet" href="assets/tether/tether.min.css">
+  <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="assets/bootstrap/css/bootstrap-grid.min.css">
+  <link rel="stylesheet" href="assets/bootstrap/css/bootstrap-reboot.min.css">
+  <link rel="stylesheet" href="assets/dropdown/css/style.css">
+  <link rel="stylesheet" href="assets/animatecss/animate.min.css">
+  <link rel="stylesheet" href="assets/socicon/css/styles.css">
+  <link rel="stylesheet" href="assets/theme/css/style.css">
+  <link rel="stylesheet" href="assets/mobirise/css/mbr-additional.css" type="text/css">
+  
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+
+<script>
+
+$(document).ready(function(){
+
+	//check user login
+	var loginUser = localStorage.getItem("loginOK");  //get the loginUser from localStorage
+	if (loginUser == "" || loginUser == null){
+		//alert("Please login first!")
+		//set menu btn status
+		$("#menu_reg").show();
+		$("#menu_login").hide();	//this page
+		$("#menu_update").hide();
+		$("#menu_logout").hide();
+		$("#menu_myFav").hide();
+		//return;	
+	}
+	else {
+		//alert("user login by = "+loginUser)
+		//set menu btn status
+		$("#menu_reg").hide();
+		$("#menu_login").hide();
+		$("#menu_update").show();
+		$("#menu_logout").show();
+		$("#menu_myFav").show();
+	}
+
+	//menu logout btn
+	$("#menu_logout").click(function(){
+		localStorage.clear();
+		//location.href="http://127.0.0.1:9999/";
+		alert("Logout successful!")
+	});
+
+
+var  myData='';
+  
+  $("#pressme_login").click(function(){
+  
+	var login=$("#loginEmail").val();
+	var password=$("#password1").val();
+	
+	var mydata="loginEmail="+login+"&password1="+password;
+	var checklogin='';
+	
+	$.ajax({
+		type:'POST',
+		url:'http://127.0.0.1:9999/login',
+		dataType:"text",
+		data:mydata,
+		success:function(data){
+	//	alert(data);	//data = value of "response.end"
+		
+		checklogin = data.split("&");  //split data 
+		//alert(checklogin[0]);
+		//alert("checklogin(user Email) = "+checklogin[1]);
+	//	alert ("!!!!!!"+ValidCaptcha());
+	
+		//check login Success
+		if (checklogin[0]=="Login Successful" && ValidCaptcha()==true){  //20190822 bugs!!
+			localStorage.setItem("loginOK", checklogin[1]);  // "loginOK" is a key to check
+			location.href="/homeLoged";
+		}
+		else{
+			alert ("fail to login");
+			location.href="/login";
+			return;
+		}
+
+		}
+	})
+
+  });
+
+});
+
+</script>
+  
+<!------------- Captcha use -------------->
+<link rel="stylesheet" type="text/css" href="/assets/Captcha/estilo.css" />
+<script type="text/javascript" src="/assets/Captcha/script_Captcha.js"></script> 
+
+
+</head>
+
+
+<body onload="Captcha();">
+  <section class="menu cid-ruX82lq5wa" once="menu" id="menu1-v">
+
+    <nav class="navbar navbar-expand beta-menu navbar-dropdown align-items-center navbar-fixed-top navbar-toggleable-sm">
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </button>
+        <div class="menu-logo">
+            <div class="navbar-brand">
+                <span class="navbar-logo">
+                    <a href="/index">
+                         <img src="assets/images/tt-logo-smallai-122x122.png" alt="Travel to Taiwan" title="" style="height: 3.8rem;">
+                    </a>
+                </span>
+                <span class="navbar-caption-wrap"><a class="navbar-caption text-white display-5" href="/index">
+                        Travel to Taiwan</a></span>
+            </div>
+        </div>
+		
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav nav-dropdown nav-right" data-app-modern-menu="true">
+			<li class="nav-item" id="menu_reg">
+                <a class="nav-link link text-white display-4" href="/register">Register</a></li>
+			<li class="nav-item" id="menu_login">
+				<a class="nav-link link text-white display-4" href="/login">Login</a></li>
+			<li class="nav-item" id="menu_update">
+				<a class="nav-link link text-white display-4" href="/update">Update</a></li>
+			<li class="nav-item" id="menu_logout">
+				<a class="nav-link link text-white display-4" href="/index">Logout</a></li>
+			<li class="nav-item" id="menu_place">
+                <a class="nav-link link text-white display-4" href="/loclist">Viewpoints</a></li>
+			<li class="nav-item" id="menu_myFav">
+				<a class="nav-link link text-white display-4" href="/myFav">MyFav</a></li>
+			<li class="nav-item" id="menu_others">
+				<a class="nav-link link text-white display-4" href="/others">Others</a></li>
+			<li class="nav-item" id="menu_game">
+				<a class="nav-link link text-white display-4" href="/game">Game</a></li>
+			</ul>
+        </div>
+		
+    </nav>
+</section>
+
+<section class="engine"></section>
+
+<section class="header15 cid-ruZh5Av6iB" id="header15-12">
+
+    <div class="mbr-overlay" style="opacity: 0.5; background-color: rgb(32, 224, 140);"></div>
+
+    <div class="container align-right">
+        <div class="row">
+            <div class="mbr-white col-lg-8 col-md-7 content-container">
+                
+                <p class="mbr-text pb-3 mbr-fonts-style display-2">Please logon by your email address and Password</p>
+            </div>
+            <div class="col-lg-4 col-md-5">
+                <div class="form-container">
+                    <div class="media-container-column" data-form-type="formoid">
+                        
+                        <form action="https://mobirise.com/" method="POST" class="mbr-form form-with-styler" data-form-title="Mobirise Form">
+						
+						<input type="hidden" name="email" data-form-email="true" value="ohoshtMrGFfeR5fbvyhpDd0un41Ox8RpE3DnBlEgtRwvdcjPTS+RGQ0O8qug0QXPs9ovW6wLJPwl87Ga6Mc06VFEWWTNDJGwkO9z58fd5ZY86OL4hWnzhwLzuzCBJ2rB">
+
+                            
+							<div class="row">
+                                <div hidden="hidden" data-form-alert="" class="alert alert-success col-12">Processing...</div>
+                                <div hidden="hidden" data-form-alert-danger="" class="alert alert-danger col-12"></div>
+                            </div>							
+							
+                            <div class="dragArea row">
+                                
+                                <div class="col-md-12 form-group " data-for="loginEmail">
+                                    <input id="loginEmail" type="text" name="loginEmail" placeholder="Login email" data-form-field="loginEmail" required="required" class="form-control px-3 display-7">
+                                </div>
+								
+                                <div class="col-md-12 form-group " data-for="password">
+                                    <input id="password1" type="password" name="password" placeholder="Login password" data-form-field="password" class="form-control px-3 display-7">
+                                </div>
+                                
+								<div class="capt"> 
+								   <h3 type="text" id="mainCaptcha"></h3>
+								   <p><input type="button" id="refresh" onclick="Captcha();"/></p>
+								   <input type="text" id="txtInput" placeholder="Upper check code" />    
+								   
+								</div>	
+								
+                                <div class="col-md-12 input-group-btn">
+									<button id="pressme_login" type="submit" class="btn btn-form btn-primary display-4" onclick="ValidCaptcha();"/>Login</button>
+								</div>
+								
+                            </div>
+                        </form>
+		
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</section>
+
+<section once="footers" class="cid-rvvk7hY7JY mbr-reveal" id="footer7-1g">
+
+    <div class="container">
+        <div class="media-container-row align-center mbr-white">
+            
+            <div class="row social-row">
+                <div class="social-list align-right pb-2">
+                    
+                <div class="soc-item">
+                        <a href="https://twitter.com/ttwebadm" target="_blank">
+                            <span class="mbr-iconfont mbr-iconfont-social socicon-twitter socicon"></span>
+                        </a>
+                    </div><div class="soc-item">
+                        <a href="https://www.facebook.com/Travel-to-Taiwan-101172251244168/?modal=admin_todo_tour" target="_blank">
+                            <span class="mbr-iconfont mbr-iconfont-social socicon-facebook socicon"></span>
+                        </a>
+                    </div><div class="soc-item">
+                        <a href="https://www.youtube.com/playlist?list=PLozdZNXaph9tKROGUNPKSopggXAKbgxPi" target="_blank">
+                            <span class="mbr-iconfont mbr-iconfont-social socicon-youtube socicon"></span>
+                        </a>
+                    </div><div class="soc-item">
+                        <a href="https://www.instagram.com/ttwebadmin/?hl=zh-hk" target="_blank">
+                            <span class="mbr-iconfont mbr-iconfont-social socicon-instagram socicon"></span>
+                        </a>
+                    </div></div>
+            </div>
+            <div class="row row-copirayt">
+                <p class="mbr-text mb-0 mbr-fonts-style mbr-white align-center display-7">Ⓒ 2019 Tavel to Taiwan</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+  <script src="assets/web/assets/jquery/jquery.min.js"></script>
+  <script src="assets/popper/popper.min.js"></script>
+  <script src="assets/tether/tether.min.js"></script>
+  <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+  <script src="assets/smoothscroll/smooth-scroll.js"></script>
+  <script src="assets/cookies-alert-plugin/cookies-alert-core.js"></script>
+  <script src="assets/cookies-alert-plugin/cookies-alert-script.js"></script>
+  <script src="assets/dropdown/js/nav-dropdown.js"></script>
+  <script src="assets/dropdown/js/navbar-dropdown.js"></script>
+  <script src="assets/touchswipe/jquery.touch-swipe.min.js"></script>
+  <script src="assets/viewportchecker/jquery.viewportchecker.js"></script>
+  <script src="assets/theme/js/script.js"></script>
+  <script src="assets/formoid/formoid.min.js"></script>
+  
+  
+ <div id="scrollToTop" class="scrollToTop mbr-arrow-up"><a style="text-align: center;"><i class="mbr-arrow-up-icon mbr-arrow-up-icon-cm cm-icon cm-icon-smallarrow-up"></i></a></div>
+    <input name="animation" type="hidden">
+  <input name="cookieData" type="hidden"data-cookie-colorText='#424a4d' data-cookie-colorBg='rgba(234, 239, 241, 0.99)' data-cookie-colorButton='#ffffff' data-cookie-colorLink='#424a4d' data-cookie-underlineLink='true' data-cookie-text="We use cookies to give you the best experience. Read our <a href='cookies_policy.htm'>cookie policy</a>.">
+  </body>
+</html>

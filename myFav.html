@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html  >
+<head>
+  <!-- WEB API ASSIGNMENT by Vaiko NG-->
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="generator" content="Mobirise v4.10.5, mobirise.com">
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+  <link rel="shortcut icon" href="assets/images/tt-logo-smallai-122x122.png" type="image/x-icon">
+  <meta name="description" content="">
+  
+  <title>Travel to Taiwan / My Favorite list</title>
+  <link rel="stylesheet" href="assets/web/assets/mobirise-icons/mobirise-icons.css">
+  <link rel="stylesheet" href="assets/tether/tether.min.css">
+  <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="assets/bootstrap/css/bootstrap-grid.min.css">
+  <link rel="stylesheet" href="assets/bootstrap/css/bootstrap-reboot.min.css">
+  <link rel="stylesheet" href="assets/socicon/css/styles.css">
+  <link rel="stylesheet" href="assets/animatecss/animate.min.css">
+  <link rel="stylesheet" href="assets/dropdown/css/style.css">
+  <link rel="stylesheet" href="assets/theme/css/style.css">
+  <link rel="stylesheet" href="assets/mobirise/css/mbr-additional.css" type="text/css">
+  
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+
+<script>
+
+$(document).ready(function(){
+
+	//check user login
+	var loginUser = localStorage.getItem("loginOK");  //get the loginUser from localStorage
+	if (loginUser == "" || loginUser == null){
+		//alert("Please login first!")
+		//set menu btn status
+		$("#menu_reg").show();
+		$("#menu_login").show();
+		$("#menu_update").hide();
+		$("#menu_logout").hide();
+		$("#menu_myFav").hide();
+		//return;	
+	}
+	else {
+		//alert("user login by = "+loginUser)
+		//set menu btn status
+		$("#menu_reg").hide();
+		$("#menu_login").hide();
+		$("#menu_update").show();
+		$("#menu_logout").show();
+		$("#menu_myFav").show();
+	}
+
+	//menu logout btn
+	$("#menu_logout").click(function(){
+		localStorage.clear();
+	
+		alert("Logout successful!")
+	});
+	
+
+//=========code for pass user name to server ==================
+	//var  myData='';
+
+	$.ajax({
+		type:'POST',
+		url:'http://127.0.0.1:9999/myFav',
+		dataType:"text",
+		data:loginUser,
+		success:function(data){
+		//alert(""+loginUser +"'s Fav list = "+data);	//data = value of "response.end"
+		
+//========== get FavItem data & split ==========================
+		var favItemTemp = data.split(",");  
+		//alert("split favItem = "+favItemTemp[0]);
+		
+		
+	
+			if (favItemTemp != "" ) {  
+			
+				for (var i=0; i < favItemTemp.length; i++){
+				
+				 this["favLabelTemp"+i] = favItemTemp[i];
+				//alert("favLabelTemp = " +this["favLabelTemp"+i]);
+				
+					$("#showfavlist").append("<br><button class='delfav' id='"+favItemTemp[i]+"'>Remove</button>&nbsp<a href=/"+favItemTemp[i]+">"+favItemTemp[i]+"</a>");	
+
+				}
+			
+			}else {
+				$("#showfavlist").html("You have not added any favorite place yet").css({"background-color": "yellow", "font-size": "200%"});
+				
+			}
+		
+		
+			//del my-Fav coding ===================================	
+
+			var  myData='';
+
+			$(".delfav").click(function(){
+			
+				//alert("show btn ID: "+$(this).closest('button').attr('id'));	//show clicked button id
+				
+				//----------- get myFav to server --------------
+				var mydata="loginEmail="+loginUser+"&favItem="+$(this).closest('button').attr('id');
+				//alert(mydata);
+				$.ajax({
+					type:'POST',
+					url:'http://127.0.0.1:9999/delfav',
+					dataType:"text",
+					data:mydata,
+					success:function(data){
+					//alert(data);
+						console.log('tempFav passing to server');
+						//console.log(data);
+						location.href="/myFav";
+					}
+				})
+		
+			});
+		
+		}
+	})
+	
+});
+
+</script>
+  
+  
+  
+</head>
+<body>
+  <section class="menu cid-ryCMGCZEan" once="menu" id="menu1-22">
+
+    <nav class="navbar navbar-expand beta-menu navbar-dropdown align-items-center navbar-fixed-top navbar-toggleable-sm">
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </button>
+        <div class="menu-logo">
+            <div class="navbar-brand">
+                <span class="navbar-logo">
+                    <a href="/index">
+                         <img src="assets/images/tt-logo-smallai-122x122.png" alt="Travel to Taiwan" title="" style="height: 3.8rem;">
+                    </a>
+                </span>
+                <span class="navbar-caption-wrap"><a class="navbar-caption text-white display-5" href="/index">
+                        Travel to Taiwan</a></span>
+            </div>
+        </div>
+		
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav nav-dropdown nav-right" data-app-modern-menu="true">
+			<li class="nav-item" id="menu_reg">
+                <a class="nav-link link text-white display-4" href="/register">Register</a></li>
+			<li class="nav-item" id="menu_login">
+				<a class="nav-link link text-white display-4" href="/login">Login</a></li>
+			<li class="nav-item" id="menu_update">
+				<a class="nav-link link text-white display-4" href="/update">Update</a></li>
+			<li class="nav-item" id="menu_logout">
+				<a class="nav-link link text-white display-4" href="/index">Logout</a></li>
+			<li class="nav-item" id="menu_place">
+                <a class="nav-link link text-white display-4" href="/loclist">Viewpoints</a></li>
+			<li class="nav-item" id="menu_myFav">
+				<a class="nav-link link text-white display-4" href="/myFav">MyFav</a></li>
+			<li class="nav-item" id="menu_others">
+				<a class="nav-link link text-white display-4" href="/others">Others</a></li>
+			<li class="nav-item" id="menu_game">
+				<a class="nav-link link text-white display-4" href="/game">Game</a></li>
+			</ul>
+        </div>
+		
+    </nav>
+</section>
+
+<section class="engine"></section>
+
+<section class="header10 cid-ryCMGBb00G mbr-fullscreen" id="header10-21">
+
+    
+
+    <div class="mbr-overlay" style="opacity: 0.3; background-color: rgb(247, 237, 74);">
+    </div>
+
+    <div class="container">
+        <div class="media-container-column mbr-white p-5 align-left col-lg-8 col-md-10">
+
+            <p class="mbr-text pb-3 mbr-fonts-style display-5">
+               My Favourite Place:</p>
+
+					<div id="showfavlist">
+
+					<!--place for show MyFav list-->
+					
+                    </div>
+        </div>	
+
+    </div>
+
+    
+</section>
+
+
+<section once="footers" class="cid-ryCMGEd2YK mbr-reveal" id="footer7-23">
+
+    <div class="container">
+        <div class="media-container-row align-center mbr-white">
+            
+            <div class="row social-row">
+                <div class="social-list align-right pb-2">
+    
+                <div class="soc-item">
+                        <a href="https://twitter.com/ttwebadm" target="_blank">
+                            <span class="mbr-iconfont mbr-iconfont-social socicon-twitter socicon"></span>
+                        </a>
+                    </div><div class="soc-item">
+                        <a href="https://www.facebook.com/Travel-to-Taiwan-101172251244168/?modal=admin_todo_tour" target="_blank">
+                            <span class="mbr-iconfont mbr-iconfont-social socicon-facebook socicon"></span>
+                        </a>
+                    </div><div class="soc-item">
+                        <a href="https://www.youtube.com/playlist?list=PLozdZNXaph9tKROGUNPKSopggXAKbgxPi" target="_blank">
+                            <span class="mbr-iconfont mbr-iconfont-social socicon-youtube socicon"></span>
+                        </a>
+                    </div><div class="soc-item">
+                        <a href="https://www.instagram.com/ttwebadmin/?hl=zh-hk" target="_blank">
+                            <span class="mbr-iconfont mbr-iconfont-social socicon-instagram socicon"></span>
+                        </a>
+                    </div></div>
+            </div>
+            <div class="row row-copirayt">
+                <p class="mbr-text mb-0 mbr-fonts-style mbr-white align-center display-7">Ⓒ 2019 Tavel to Taiwan</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+  <script src="assets/web/assets/jquery/jquery.min.js"></script>
+  <script src="assets/popper/popper.min.js"></script>
+  <script src="assets/tether/tether.min.js"></script>
+  <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+  <script src="assets/smoothscroll/smooth-scroll.js"></script>
+  <script src="assets/viewportchecker/jquery.viewportchecker.js"></script>
+  <script src="assets/dropdown/js/nav-dropdown.js"></script>
+  <script src="assets/dropdown/js/navbar-dropdown.js"></script>
+  <script src="assets/touchswipe/jquery.touch-swipe.min.js"></script>
+  <script src="assets/cookies-alert-plugin/cookies-alert-core.js"></script>
+  <script src="assets/cookies-alert-plugin/cookies-alert-script.js"></script>
+  <script src="assets/theme/js/script.js"></script>
+  
+  
+ <div id="scrollToTop" class="scrollToTop mbr-arrow-up"><a style="text-align: center;"><i class="mbr-arrow-up-icon mbr-arrow-up-icon-cm cm-icon cm-icon-smallarrow-up"></i></a></div>
+    <input name="animation" type="hidden">
+  <input name="cookieData" type="hidden"data-cookie-colorText='#424a4d' data-cookie-colorBg='rgba(234, 239, 241, 0.99)' data-cookie-colorButton='#ffffff' data-cookie-colorLink='#424a4d' data-cookie-underlineLink='true' data-cookie-text="We use cookies to give you the best experience. Read our <a href='cookies_policy.htm'>cookie policy</a>.">
+  </body>
+</html>

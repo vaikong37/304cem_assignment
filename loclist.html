@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html  >
+<head>
+  <!-- WEB API ASSIGNMENT by Vaiko NG-->
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="generator" content="Mobirise v4.10.5, mobirise.com">
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+  <link rel="shortcut icon" href="assets/images/tt-logo-smallai-122x122.png" type="image/x-icon">
+  <meta name="description" content="">
+  
+  <title>Travel to Taiwan / Place</title>
+  <link rel="stylesheet" href="assets/web/assets/mobirise-icons/mobirise-icons.css">
+  <link rel="stylesheet" href="assets/tether/tether.min.css">
+  <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="assets/bootstrap/css/bootstrap-grid.min.css">
+  <link rel="stylesheet" href="assets/bootstrap/css/bootstrap-reboot.min.css">
+  <link rel="stylesheet" href="assets/socicon/css/styles.css">
+  <link rel="stylesheet" href="assets/animatecss/animate.min.css">
+  <link rel="stylesheet" href="assets/dropdown/css/style.css">
+  <link rel="stylesheet" href="assets/theme/css/style.css">
+  <link rel="stylesheet" href="assets/gallery/style.css">
+  <link rel="stylesheet" href="assets/mobirise/css/mbr-additional.css" type="text/css">
+  
+  
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+
+<script>
+
+$(document).ready(function(){
+
+	$("Label").hide();	//hide addFav label
+	//https://www.javaworld.com.tw/jute/post/view?bid=34&id=313323
+	//$("#favlist").hide();	//hide addFav btn
+	//$(".addfav").show();	//show addFav btn
+	
+	
+	//check user login
+	var loginUser = localStorage.getItem("loginOK");  //get the loginUser from localStorage
+	if (loginUser == "" || loginUser == null){
+		//alert("Please login first!")
+		//set menu btn status
+		$("#menu_reg").show();
+		$("#menu_login").show();
+		$("#menu_update").hide();
+		$("#menu_logout").hide();
+		$("#menu_myFav").hide();
+		$("#menu_place").hide();	//this page
+		//return;	
+	}
+	else {
+		alert("user login by = "+loginUser)
+		//set menu btn status
+		$("#menu_reg").hide();
+		$("#menu_login").hide();
+		$("#menu_update").show();
+		$("#menu_logout").show();
+		$("#menu_myFav").show();
+		$("#menu_place").hide();	//this page
+	}
+
+	//menu logout btn
+	$("#menu_logout").click(function(){
+		localStorage.clear();
+		//location.href="http://127.0.0.1:9999/";
+		alert("Logout successful!")
+	});
+
+var  myData='';
+
+	//2019-6-26 add my-Fav coding ===================================
+    $(".addfav").click(function(){
+	   //var a=$(this).closest('#favlist').find('label').text();    //---find my closest fav list (not use ok, if using .parent)
+	    alert($(this).parent().find('label').text());
+	   //alert(a);
+	   
+	   
+		//2019-6-26 coding -get myFav to server
+		//var tempfav=$("#favlist").val();
+		//var mydata = $(this).parent().find('label').text();	//original ok for get myFav value
+		var mydata="loginUser="+loginUser+"&favItem="+$(this).parent().find('label').text();
+
+		//var mydata=tempfav;
+		alert(mydata);
+	
+	$.ajax({
+		type:'POST',
+		url:'http://127.0.0.1:9999/homeLoged',
+		dataType:"text",
+		data:mydata,
+		success:function(data){
+		alert(data);
+			console.log('tempFav passing to server');
+			//console.log(data);
+		}
+	})
+	
+	
+
+	
+	
+	//=============new code
+	
+	
+	});
+
+
+
+
+});
+
+</script>
+  
+  
+</head>
+
+
+<body>
+  <section class="menu cid-ryC8yajLwg" once="menu" id="menu1-1q">
+
+    
+
+    <nav class="navbar navbar-expand beta-menu navbar-dropdown align-items-center navbar-fixed-top navbar-toggleable-sm">
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </button>
+        <div class="menu-logo">
+            <div class="navbar-brand">
+                <span class="navbar-logo">
+                    <a href="/index">
+                         <img src="assets/images/tt-logo-smallai-122x122.png" alt="Travel to Taiwan" title="" style="height: 3.8rem;">
+                    </a>
+                </span>
+                <span class="navbar-caption-wrap"><a class="navbar-caption text-white display-5" href="/index">
+                        Travel to Taiwan</a></span>
+            </div>
+        </div>
+		
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav nav-dropdown nav-right" data-app-modern-menu="true">
+			<li class="nav-item" id="menu_reg">
+                <a class="nav-link link text-white display-4" href="/register">Register</a></li>
+			<li class="nav-item" id="menu_login">
+				<a class="nav-link link text-white display-4" href="/login">Login</a></li>
+			<li class="nav-item" id="menu_update">
+				<a class="nav-link link text-white display-4" href="/update">Update</a></li>
+			<li class="nav-item" id="menu_logout">
+				<a class="nav-link link text-white display-4" href="/index">Logout</a></li>
+			<li class="nav-item" id="menu_place">
+                <a class="nav-link link text-white display-4" href="/loclist">Viewpoints</a></li>
+			<li class="nav-item" id="menu_myFav">
+				<a class="nav-link link text-white display-4" href="/myFav">MyFav</a></li>
+			<li class="nav-item" id="menu_others">
+				<a class="nav-link link text-white display-4" href="/others">Others</a></li>
+			<li class="nav-item" id="menu_game">
+				<a class="nav-link link text-white display-4" href="/game">Game</a></li>
+			</ul>
+        </div>
+		
+    </nav>
+</section>
+
+<section class="engine"></section>
+
+<section class="mbr-gallery mbr-slider-carousel cid-ryCrCpbol0" id="gallery3-1z">
+
+    
+
+    <div>
+        <div>
+		<!-- Filter -->
+			<div class="mbr-gallery-filter container gallery-filter-active">
+			<ul buttons="0"><li class="mbr-gallery-filter-all">
+				<a class="btn btn-md btn-primary-outline active display-4" href="">All</a></li>
+			</ul>
+			</div>
+		
+		<!-- Gallery -->
+			<div class="mbr-gallery-row">
+			<div class="mbr-gallery-layout-default">
+			<div><div>
+			
+			<div class="mbr-gallery-item mbr-gallery-item--p0" data-video-url="false" data-tags="Tainan">
+			<a href="/Xiaonan_City_God_Temple"><img src="assets/images/tainan1-762x574-762x574.jpg" alt="" title="">
+			<span class="mbr-gallery-title mbr-fonts-style display-7">Xiaonan City God Temple</span></a>
+			</div>
+			
+			<div class="mbr-gallery-item mbr-gallery-item--p0" data-video-url="false" data-tags="Taipei">
+			<a href="/Taipei_101"><img src="assets/images/taipei1-762x574-762x574.jpg" alt="" title="">
+			<span class="mbr-gallery-title mbr-fonts-style display-7">Taipei 101</span></a>
+			</div>
+			
+			<div class="mbr-gallery-item mbr-gallery-item--p0" data-video-url="false" data-tags="Tainan">
+			<a href="/Dragon_and_Tiger_Pagodas"><img src="assets/images/tainan2-762x574-762x574.jpg" alt="" title="">
+			<span class="mbr-gallery-title mbr-fonts-style display-7">Dragon and Tiger Pagodas</span></a>
+			</div>
+			
+			<div class="mbr-gallery-item mbr-gallery-item--p0" data-video-url="false" data-tags="Taichung">
+			<a href="/Sun_Moon_Lake"><img src="assets/images/taichung1-762x574-762x574.jpg" alt="" title="">
+			<span class="mbr-gallery-title mbr-fonts-style display-7">Sun Moon Lake</span></a>
+			</div>
+			
+			<div class="mbr-gallery-item mbr-gallery-item--p0" data-video-url="false" data-tags="Taitung">
+			<a href="/National_Taitung_University"><img src="assets/images/taitung1-762x574-762x574.jpg" alt="" title="">
+			<span class="mbr-gallery-title mbr-fonts-style display-7">National Taitung University</span></a>
+			</div>
+			
+			<div class="mbr-gallery-item mbr-gallery-item--p0" data-video-url="false" data-tags="Taipei">
+			<a href="/Jiufen"><img src="assets/images/taipei2-762x574-762x574.jpg" alt="" title="">
+			<span class="mbr-gallery-title mbr-fonts-style display-7">Jiufen</span></a>
+			</div>
+			
+			<div class="mbr-gallery-item mbr-gallery-item--p0" data-video-url="false" data-tags="Taitung">
+			<a href="/Sanxiantai"><img src="assets/images/taitung3-762x574-762x574.jpg" alt="" title="">
+			<span class="mbr-gallery-title mbr-fonts-style display-7">Sanxiantai</span></a>
+			</div>
+			
+			<div class="mbr-gallery-item mbr-gallery-item--p0" data-video-url="false" data-tags="Taitung">
+			<a href="/Brown_Avenue"><img src="assets/images/taitung2-762x574-762x574.jpg" alt="" title="">
+			<span class="mbr-gallery-title mbr-fonts-style display-7">Brown Avenue</span></a>
+			</div>
+			
+			</div></div>
+			
+			
+			
+			
+			</div></div>
+			
+			 <h3 class="mbr-section-subtitle mbr-light pb-3 mbr-fonts-style display-2"><br>Location of all viewpoint</h3>
+           
+			<iframe width="100%" height="520" frameborder="0" src="https://ttwebadmin.carto.com/builder/d44f9b12-da27-4166-8341-c851fc1890b8/embed" allowfullscreen webkitallowfullscreen mozallowfullscreen oallowfullscreen msallowfullscreen>
+			</iframe>
+			
+			
+		</div>
+    </div>
+
+</section>
+
+<section once="footers" class="cid-ryC8ygxcFl mbr-reveal" id="footer7-1s">
+
+    <div class="container">
+        <div class="media-container-row align-center mbr-white">
+            
+            <div class="row social-row">
+                <div class="social-list align-right pb-2">
+                    
+                <div class="soc-item">
+                        <a href="https://twitter.com/ttwebadm" target="_blank">
+                            <span class="mbr-iconfont mbr-iconfont-social socicon-twitter socicon"></span>
+                        </a>
+                    </div><div class="soc-item">
+                        <a href="https://www.facebook.com/Travel-to-Taiwan-101172251244168/?modal=admin_todo_tour" target="_blank">
+                            <span class="mbr-iconfont mbr-iconfont-social socicon-facebook socicon"></span>
+                        </a>
+                    </div><div class="soc-item">
+                        <a href="https://www.youtube.com/playlist?list=PLozdZNXaph9tKROGUNPKSopggXAKbgxPi" target="_blank">
+                            <span class="mbr-iconfont mbr-iconfont-social socicon-youtube socicon"></span>
+                        </a>
+                    </div><div class="soc-item">
+                        <a href="https://www.instagram.com/ttwebadmin/?hl=zh-hk" target="_blank">
+                            <span class="mbr-iconfont mbr-iconfont-social socicon-instagram socicon"></span>
+                        </a>
+                    </div></div>
+            </div>
+            <div class="row row-copirayt">
+                <p class="mbr-text mb-0 mbr-fonts-style mbr-white align-center display-7">Ⓒ 2019 Tavel to Taiwan</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+  <script src="assets/web/assets/jquery/jquery.min.js"></script>
+  <script src="assets/popper/popper.min.js"></script>
+  <script src="assets/tether/tether.min.js"></script>
+  <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+  <script src="assets/smoothscroll/smooth-scroll.js"></script>
+  <script src="assets/cookies-alert-plugin/cookies-alert-core.js"></script>
+  <script src="assets/cookies-alert-plugin/cookies-alert-script.js"></script>
+  <script src="assets/masonry/masonry.pkgd.min.js"></script>
+  <script src="assets/imagesloaded/imagesloaded.pkgd.min.js"></script>
+  <script src="assets/bootstrapcarouselswipe/bootstrap-carousel-swipe.js"></script>
+  <script src="assets/vimeoplayer/jquery.mb.vimeo_player.js"></script>
+  <script src="assets/touchswipe/jquery.touch-swipe.min.js"></script>
+  <script src="assets/viewportchecker/jquery.viewportchecker.js"></script>
+  <script src="assets/dropdown/js/nav-dropdown.js"></script>
+  <script src="assets/dropdown/js/navbar-dropdown.js"></script>
+  <script src="assets/theme/js/script.js"></script>
+  <script src="assets/slidervideo/script.js"></script>
+  <script src="assets/gallery/player.min.js"></script>
+  <script src="assets/gallery/script.js"></script>
+  
+  
+ <div id="scrollToTop" class="scrollToTop mbr-arrow-up"><a style="text-align: center;"><i class="mbr-arrow-up-icon mbr-arrow-up-icon-cm cm-icon cm-icon-smallarrow-up"></i></a></div>
+    <input name="animation" type="hidden">
+  <input name="cookieData" type="hidden"data-cookie-colorText='#424a4d' data-cookie-colorBg='rgba(234, 239, 241, 0.99)' data-cookie-colorButton='#ffffff' data-cookie-colorLink='#424a4d' data-cookie-underlineLink='true' data-cookie-text="We use cookies to give you the best experience. Read our <a href='cookies_policy.htm'>cookie policy</a>.">
+  </body>
+</html>
